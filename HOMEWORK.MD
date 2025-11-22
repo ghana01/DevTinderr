@@ -8,3 +8,12 @@ create a repo
 - what are the dependecis
 -differecnce between caret and tilde (^ vs ~)
 - what are the use of -g  while npm install
+
+-initialize git
+-gitignore 
+- create a remote repo on github
+-push all code to remote origin
+-play with the routes and route ex. /hello /hello/2  ->
+-> important lesson is order of the route is matter 
+-what are the http method
+-
