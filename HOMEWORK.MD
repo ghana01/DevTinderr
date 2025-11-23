@@ -32,3 +32,16 @@ reading the querey params in the route
  
 -write a dummy auth middlware for all the user route except /user/login
 -erro handeling 
+
+--------
+-coonect the appkication with db->mongoDb
+-- visit to monnoge document if anything need to monngoe is orm for mognoDb
+-create a cluster on mongodb offcial website (mongo atlas)
+- install mongoose library (npm)
+- connect your application to the database   /devTinder
+
+-create a user  Schema  and user model
+
+--create a post /signup api to add data to database
+- push some document using api calls from postman
+-- do some erro handeling using try catch
