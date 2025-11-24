@@ -6,17 +6,21 @@ import UserModel from "./models/user.js"
 const app=express();// it is instances of express
 // handel auth for admin routes
 
+app.use(express.json())// middleware to parse json body
+
 
 app.post("/signup",async (req,res)=>{
-     // creating a new instacnes of the user model
-    const user = new UserModel({
-        firstName:"ghanshyam",
-        lastName:"mishra",
-        emailId:"akshay@saini.com",
-        password:"akshay123",
-        age:26,
-        gender:"male"
-    })
+   // console.log(req.body);
+   //  creating a new instacnes of the user model
+    // const user = new UserModel({
+    //     firstName:"mahendra",
+    //     lastName:"bahubali",
+    //     emailId:"mahendrabahbali@gmail.com",
+    //     password:"bahubali@123",
+    //     age:25,
+    //     gender:"male"
+    // })
+    const user =new UserModel(req.body);
 
     try{
         await user.save();
@@ -24,10 +28,59 @@ app.post("/signup",async (req,res)=>{
     } catch(err){
         res.status(500).send("error in signing up user  ")
     }
-
-   
-   
 })
+
+app.get("/user",async (req,res)=>{
+    const UserEmail=req.body.emailId;
+
+    try{
+           const User =await UserModel.findOne({emailId:UserEmail});
+           if(!User){
+             res.status(404).send("user not found");
+           }
+             res.send(User);
+    }catch(err){
+        res.status(500).send("error in fetching the user")
+    }
+})
+//this is the feed api -GET/feed -get all the users from the database
+app.get("/feed",async(req,res)=>{
+        try{
+         const  users =await UserModel.find({});
+            res.send(users);
+        }catch(err){
+            res.status(500).send("error in fetching users");
+        }
+})
+
+app.delete("/user",async (req,res)=>{
+    const UserEmail=req.body.emailId;
+
+    try{
+        await UserModel.deleteOne({emailId:UserEmail});
+        res.send("user deleted successfully");
+    }catch(err){
+        res.status(500).send("error in deleting the user"); 
+    }
+})
+
+//update the patch   
+app.patch("/user",async (req,res)=>{
+    const userId=req.body._id;
+    const data=req.body;
+
+    try{
+        const user = await UserModel.findByIdAndUpdate(userId, data, {new: true, runValidators: true});
+        if(!user){
+            return res.status(404).send("User not found");
+        }
+        res.send("user updated successfully");
+    }catch(err){
+        res.status(500).send("error in updating the user: " + err.message);  
+    }
+
+})
+
 
 
 

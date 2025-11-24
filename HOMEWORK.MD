@@ -45,3 +45,10 @@ reading the querey params in the route
 --create a post /signup api to add data to database
 - push some document using api calls from postman
 -- do some erro handeling using try catch
+-js object vs json learn about it 
+-add the express.json middlware to your app
+-make your api dyanmics to recive data from the end 
+
+-create api  with help of mongoose
+-create and api get user BY ID
+-create a delete user api
