@@ -10,6 +10,18 @@ app.use(express.json())// middleware to parse json body
 
 
 app.post("/signup",async (req,res)=>{
+
+    const ALLOWED_FIELDS = ["firstName", "lastName", "emailId", "password", "age", "gender", "skills"];
+    // Create a clean object with ONLY allowed keys
+    const cleanData = {};
+    Object.keys(req.body).forEach(key => {
+        if (ALLOWED_FIELDS.includes(key)) {
+            cleanData[key] = req.body[key];
+        }
+    });
+
+    // Now cleanData does NOT have "xyr" inside it at all.
+    console.log(cleanData);
    // console.log(req.body);
    //  creating a new instacnes of the user model
     // const user = new UserModel({

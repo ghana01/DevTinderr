@@ -52,3 +52,18 @@ reading the querey params in the route
 -create api  with help of mongoose
 -create and api get user BY ID
 -create a delete user api
+
+-explore the schema option from mongoose
+-add required ,uine,lowercase,min,trim and many more
+-add default value\
+- create a custom validater
+-improve the db schema overall
+
+
+----
+data senitazation
+
+
+-add api level validation on patch request & signup post api
+
+-add apo  validation for each feild in schema
