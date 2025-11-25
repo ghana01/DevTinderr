@@ -26,7 +26,7 @@ app.post("/signup",async (req,res)=>{
         await user.save();
       res.send("user signed up successfully")
     } catch(err){
-        res.status(500).send("error in signing up user  ")
+        res.status(500).send("error in signing up the user: " + err.message);
     }
 })
 
@@ -80,12 +80,6 @@ app.patch("/user",async (req,res)=>{
     }
 
 })
-
-
-
-
-
-
 connectDB().then(()=>{
     console.log("DB successfully connected");
     app.listen(4000,()=>{
