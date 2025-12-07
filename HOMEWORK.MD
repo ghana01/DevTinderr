@@ -86,3 +86,8 @@ set the expiry of jwt token and cookies to 7 days
 
 create userSchamea method to get Jwt() 
 -Create a userschema method to comparepassword(password) 
+
+
+-Explore the tinder api
+-create a list all api you can think of in dev tinder
+-group multiplr routes under the respective router
