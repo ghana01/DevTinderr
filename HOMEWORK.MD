@@ -67,3 +67,22 @@ data senitazation
 -add api level validation on patch request & signup post api
 
 -add apo  validation for each feild in schema
+
+-install validator
+-explore validator library function and use vlidator func for password,gmeail....
+
+install cookie parser ,jwt npm
+just send a dummy cookie to user
+create a get /profile and chek if u get the cookie back
+in login PAI,create e jwt token and send back to the user in cooies
+
+ read the cookies inside your profile api and ifnd thr logged in user
+
+useAuth middleware
+
+add the userAuth middleware in the profile  and send a new sendconnection request api
+
+set the expiry of jwt token and cookies to 7 days
+
+create userSchamea method to get Jwt() 
+-Create a userschema method to comparepassword(password) 

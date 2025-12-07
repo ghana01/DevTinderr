@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import validator from 'validator';
 const  userSchema =new mongoose.Schema({
     firstName: {
         type: String,
@@ -15,6 +16,11 @@ const  userSchema =new mongoose.Schema({
         unique:true,
         lowercase:true,
         trim:true,
+        validate(value){
+            if(!validator.isEmail(value)){
+                throw new Error("invalid email address" + value)
+            }
+        }
 
     },
     password:{
@@ -52,5 +58,17 @@ const  userSchema =new mongoose.Schema({
     
 })
 const UserModel = mongoose.model("User",userSchema);
+
+ userSchema.methods.getJwt = async function (){
+    const user =this;
+    const token = await jwt.sign({id:this._id},"mysecretkey",{expiresIn:"1d"});
+    return token;
+ };
+ userSchema.methods.validatePassword = async function (password){
+   const user =this;
+   const passwordHashed =user.password;
+   const isPasswordValid =await bcrypt.compare(password,passwordHashed);
+   return isPasswordValid;
+ }
 
 export default UserModel;
