@@ -91,3 +91,20 @@ create userSchamea method to get Jwt()
 -Explore the tinder api
 -create a list all api you can think of in dev tinder
 -group multiplr routes under the respective router
+
+-Read documntation for express.Router
+-Create routes folder for managin the auth,profile,request Routes 
+
+-create auth,profile ,request router
+
+import these router in app.js
+
+-Create connection Request Schema
+-Create send Conncetion request with porper valdition 
+-think about the corner case  of how we handel 
+-$or query $and query in mongoose  -> learn this
+-Schema.pre("save") //function  
+-Alway Think about the corner cases
+
+-Read more about compound indexing and indeinx in mognoDb how we use it  indexing in sql and mongoDb is very different the way they work
+-read  about hte advantage and diadvantage of  indexing 

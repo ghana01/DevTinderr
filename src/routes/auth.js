@@ -1,9 +1,11 @@
 import express from 'express';
-import {validateSignUpData} from "./utils/validation.js"
-import UserModel from "./models/user.js"
-import bcrypt from 'bcrypt';
-const AuthRouter =express.Router();
 
+import { validateSignUpData } from '../utils/validation.js';
+import UserModel from "../models/user.js";
+import bcrypt from 'bcrypt';
+import validator from 'validator';
+const AuthRouter =express.Router();
+ 
 
 AuthRouter.post("/signup",async (req,res)=>{
     //Encypt the password
@@ -15,7 +17,7 @@ AuthRouter.post("/signup",async (req,res)=>{
     //         cleanData[key] = req.body[key];
     //     }
     // });
-
+ 
     // Now cleanData does NOT have "xyr" inside it at all.
   //  console.log(cleanData);
    // console.log(req.body);
@@ -55,7 +57,7 @@ AuthRouter.post("/signup",async (req,res)=>{
         res.status(500).send("error in signing up the user: " + err.message);
     }
 })
-authRouter.post("/login",async (req,res)=>{
+AuthRouter.post("/login",async (req,res)=>{
 
 
     try{
@@ -83,6 +85,19 @@ authRouter.post("/login",async (req,res)=>{
 
     }catch (err){
         res.status(500).send("error in logging in the user");
+    }
+})
+
+AuthRouter.post("/logout",async (req,res) =>{
+    try{
+        res.cookie("token",null,{
+            expires:new Date(Date.now()),
+        });
+        res.send("user logged out successfully");
+
+        //res.clearCookie("token");  it is also used to clear the cookie
+    }catch(err){
+        res.status(500).send("error in logging out the user");
     }
 })
 

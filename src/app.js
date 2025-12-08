@@ -10,13 +10,13 @@ import  connectDB from "./config/database.js"
 
 
 const app=express();
-
+ 
 app.use(express.json())// middleware to parse json body
 
 app.use(cookieParser()) // middleware to parse cookies
 
 app.use("/auth",AuthROuter);
-app.use("/user",ProfileRouter);
+app.use("/profile",ProfileRouter);
 app.use("/request",RequestRouter);
 
 

@@ -8,7 +8,7 @@
 ##progileRouter
 -GET/profile/view   ->get the profile
 -PATCH/profile/edit  ->update the profile
--PATCH/profile/password  
+-PATCH/profile/password   ->this api for forget the passowrd
 -
 ##connectionRequestRouter
 -POST/request/send/intrested/:userId

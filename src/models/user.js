@@ -38,6 +38,10 @@ const  userSchema =new mongoose.Schema({
     },
    gender: {
     type: String,
+    enum:{
+        values:["male","female","others"],
+        message: `{VALUE} is not valid gender`
+    },
     validate(value) {
         
         // "Male" and "male" should both work
@@ -59,9 +63,11 @@ const  userSchema =new mongoose.Schema({
     }
     
 })
+userSchema.index({firstName:1,lastName:1   }); // compound field indexing on the basis of what we serch we create the indexing 
+// we can also create the indeinx with UserSchema.index({email:1})  but creating to  many index in databse also have cost
 userSchema.methods.getJwt = async function (){
     const user =this;
-    const token = await jwt.sign({id:this._id},"mysecretkey",{expiresIn:"1d"});
+    const token = await jwt.sign({_id:this._id},"mysecretkey",{expiresIn:"1d"});
     return token;
  };
  userSchema.methods.validatePassword = async function (password){
