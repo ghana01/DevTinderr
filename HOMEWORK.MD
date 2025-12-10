@@ -108,3 +108,15 @@ import these router in app.js
 
 -Read more about compound indexing and indeinx in mognoDb how we use it  indexing in sql and mongoDb is very different the way they work
 -read  about hte advantage and diadvantage of  indexing 
+
+-write the code for the api "/review/:status/:requestId"  with consdering the validation and all the edge  cases
+
+-Thought Process of  -POST  and GET 
+-in Post APi we are sending dat to database or or taking the user input so in post api we should be  extra carefull cuz it can create a security issue if wrong data  goes into database ,hacker get oppertunity to know the database
+
+-GET in get api we get data from databse so wht we are asking .we have to carefull about 
+
+-Read about thr ref and populate 
+-Create Get /user/request/recived with all the  checks and validation
+
+-Create  GET?user?connections api

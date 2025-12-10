@@ -6,6 +6,7 @@ import validator from 'validator';
 import AuthROuter from './routes/auth.js';
 import ProfileRouter from './routes/profile.js';
 import RequestRouter from './routes/request.js';
+import UserRouter from './routes/user.js';  
 import  connectDB from "./config/database.js"
 
 
@@ -18,6 +19,7 @@ app.use(cookieParser()) // middleware to parse cookies
 app.use("/auth",AuthROuter);
 app.use("/profile",ProfileRouter);
 app.use("/request",RequestRouter);
+app.use("/user",UserRouter);
 
 
 

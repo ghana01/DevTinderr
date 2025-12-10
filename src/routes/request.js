@@ -61,5 +61,55 @@ RequestRouter.post("/send/:status/:toUserId",userAuth,async (req,res)=>{
             
     }catch(err){}
 })
+RequestRouter.post("/review/:status/:requestId",userAuth,async (req,res)=>{
+
+    try{
+        
+        //
+         //validate the status  if it is intrested then only accepted or rejected is allowed
+        //Akshyay ->elon send request   fromUserId -> Akshay  toUserId -> elon
+        // now elon is looged in user
+        //we check is elon is looged in user   only elon is authersied to accept or reject the request
+        // what status  should be  there either it is accpeted or rejcted     
+        //requestID should be valid
+
+        // user already accepted or reject the request we should handele this case 
+
+        const looggedInUser =req.user;
+        const {requestId,status} =req.params;
+
+        const allowedStatus =["accepted","rejected"];
+        if(!allowedStatus.includes(status)){
+            return res.status(400).json({
+                message:"status is not allowed"
+            })
+        }
+
+        const connectionRequest =await ConnectionRequestModel.findById({
+            _id:requestId,
+            toUserId:looggedInUser._id, // only to loogged in user
+            status:"interested" // only interested request can be reviewed
+        })
+
+        if(!connectionRequest){
+            return res.status(404).json({
+                message:"connection request not found"
+            })
+        }
+        // if everything is valid then we can update the status of the connection request
+        connectionRequest.status =status;
+        await connectionRequest.save();
+        
+        //
+
+        res.json({
+            message:"connnection request "+status+" successfully"
+        })
+
+        //
+    }catch(err){
+
+    }
+})
 
 export default RequestRouter
