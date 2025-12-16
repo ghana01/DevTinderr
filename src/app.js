@@ -7,13 +7,17 @@ import AuthROuter from './routes/auth.js';
 import ProfileRouter from './routes/profile.js';
 import RequestRouter from './routes/request.js';
 import UserRouter from './routes/user.js';  
+
+import cors from 'cors';
 import  connectDB from "./config/database.js"
 
 
 const app=express();
- 
+app.use(cors({
+    origin: "http://localhost:5173", // This must match your Frontend URL exactly
+    credentials: true
+}));
 app.use(express.json())// middleware to parse json body
-
 app.use(cookieParser()) // middleware to parse cookies
 
 app.use("/auth",AuthROuter);
@@ -22,7 +26,7 @@ app.use("/request",RequestRouter);
 app.use("/user",UserRouter);
 
 
-
+ 
 
 
 

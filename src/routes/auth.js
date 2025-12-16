@@ -81,7 +81,7 @@ AuthRouter.post("/login",async (req,res)=>{
         //add the token to cookie andsend the response back to the user
          res.cookie("token", token);
 
-        res.send("user logged in successfully");
+        res.send(user)
 
     }catch (err){
         res.status(500).send("error in logging in the user");

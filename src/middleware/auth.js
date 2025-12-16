@@ -9,7 +9,7 @@ export const userAuth = async(req, res, next) => {
         const {token} = req.cookies;
         
         if(!token) {
-            throw new Error("token not found");
+            return res.status(401).send("Please login");
         }
         
         // Validate the token
