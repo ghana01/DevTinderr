@@ -51,8 +51,12 @@ AuthRouter.post("/signup",async (req,res)=>{
 
         });
         
-        await user.save();
-      res.send("user signed up successfully")
+        const savedUser = await user.save();
+        const token = await savedUser.getJwt();
+
+        //add the token to cookie andsend the response back to the user
+         res.cookie("token", token);
+      res.json({message: "user signed up successfully", data: savedUser});
     } catch(err){
         res.status(500).send("error in signing up the user: " + err.message);
     }
@@ -84,7 +88,7 @@ AuthRouter.post("/login",async (req,res)=>{
         res.send(user)
 
     }catch (err){
-        res.status(500).send("error in logging in the user");
+        res.status(401).send("error in logging in the user");
     }
 })
 
@@ -100,9 +104,5 @@ AuthRouter.post("/logout",async (req,res) =>{
         res.status(500).send("error in logging out the user");
     }
 })
-
-
-
-
 
 export default AuthRouter;
