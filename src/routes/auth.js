@@ -4,6 +4,8 @@ import { validateSignUpData } from '../utils/validation.js';
 import UserModel from "../models/user.js";
 import bcrypt from 'bcrypt';
 import validator from 'validator';
+import crypto from 'crypto';
+import { sendPasswordResetEmail } from '../utils/emailServices.js';
 const AuthRouter =express.Router();
  
 
@@ -104,5 +106,66 @@ AuthRouter.post("/logout",async (req,res) =>{
         res.status(500).send("error in logging out the user");
     }
 })
+AuthRouter.post("/forget-password",async (req,res)=>{
+
+    try{
+        const {emailId}=req.body;
+        if(!validator.isEmail(emailId)){
+            throw new Error("email id is not valid");
+        }
+        const user =await UserModel.findOne({emailId});
+        if(!user){
+            throw new Error("user not found");
+        }
+        // generate a reset token
+        const resetToken =crypto.randomBytes(20).toString('hex');
+        // set the reset token and its expiry on the user model
+        user.resetPasswordToken =resetToken;
+        user.resetPasswordExpires =Date.now() +3600000; // 1 hour from now
+        await user.save();
+
+        const emailSent = await sendPasswordResetEmail(emailId, resetToken);
+        if(!emailSent){
+            user.resetPasswordToken =undefined;
+            user.resetPasswordExpires =undefined;
+            await user.save();
+            return res.status(500).send("error in sending the email");
+        }
+        res.status(200).send("password reset email sent successfully");
+    }catch(err){
+        res.status(500).send("error in forget password: " + err.message);
+    }
+})
+// 2. RESET PASSWORD API
+AuthRouter.post("/reset-password/:token", async (req, res) => {
+    try {
+        const { token } = req.params;
+        const { password } = req.body;
+
+        // Find user with this token AND check if token is not expired
+        const user = await UserModel.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpires: { $gt: Date.now() }, // $gt means "greater than"
+        });
+
+        if (!user) {
+            return res.status(400).send("Invalid link or expired");
+        }
+
+        // Hash the new password using bcrypt
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        user.password = hashedPassword;
+        user.resetPasswordToken = undefined; // Clear the token
+        user.resetPasswordExpires = undefined; // Clear the expiry
+
+        await user.save();
+
+        res.send("Password reset successfully.");
+
+    } catch (error) {
+        res.status(500).send("An error occurred: " + error.message);
+    }
+});
 
 export default AuthRouter;

@@ -1,5 +1,5 @@
 import express from 'express';
-
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import validator from 'validator';
@@ -11,6 +11,7 @@ import UserRouter from './routes/user.js';
 import cors from 'cors';
 import  connectDB from "./config/database.js"
 
+dotenv.config();
 
 const app=express();
 app.use(cors({

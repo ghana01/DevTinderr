@@ -123,6 +123,12 @@ const userSchema = new mongoose.Schema({
         linkedin: String,
         twitter: String,
         portfolio: String,
+    },
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpires: {
+        type: Date
     }
 }, { timestamps: true }); // Added timestamps option (good practice)
 
