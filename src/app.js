@@ -1,5 +1,5 @@
 import express from 'express';
-
+import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import cookieParser from 'cookie-parser';
 import validator from 'validator';
@@ -7,7 +7,7 @@ import AuthROuter from './routes/auth.js';
 import ProfileRouter from './routes/profile.js';
 import RequestRouter from './routes/request.js';
 import UserRouter from './routes/user.js';  
-
+dotenv.config();
 import cors from 'cors';
 import  connectDB from "./config/database.js"
 
