@@ -40,16 +40,18 @@ UserRouter.get("/connection",userAuth,async (req,res)=>{
             ]
             
         }).populate("fromUserId",USER_SAFE_DATA).populate("toUserId",USER_SAFE_DATA);
+
+        console.log("Raw connection request:", JSON.stringify(connectionRequest, null, 2));
         // now from this connection request we have to extract the user details of the connected user  we have to also take care the loggedin user is either in fromUserId or toUserId field
         const data  =connectionRequest.map((row)=> {
-            if(row.fromUserId._id.toString() ===loggedInUser._id){
+            if(row.fromUserId._id.toString() ===loggedInUser._id.toString()){
                 return row.toUserId;
             }
             return row.fromUserId;
         });
 
         res.json({
-           connectionRequest
+           data
         })
     }catch(err){
         res.status(400).send("Error"+err.message);

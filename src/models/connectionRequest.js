@@ -10,6 +10,7 @@ const connectionRequestSchema =new mongoose.Schema({
     },
     toUserId:{
         type:mongoose.Schema.Types.ObjectId,
+        ref:"User",  //refrence to the user Collection
         required:true
     },
     status:{

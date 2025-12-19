@@ -8,10 +8,11 @@ import ProfileRouter from './routes/profile.js';
 import RequestRouter from './routes/request.js';
 import UserRouter from './routes/user.js';  
 import http from 'http';
-import socket from 'socket.io'
+
 import cors from 'cors';
 import  connectDB from "./config/database.js"
 import intialiseSocket from "./utils/socket.js"
+
 dotenv.config();
 
 const app=express();
