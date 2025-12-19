@@ -55,8 +55,13 @@ AuthRouter.post("/signup",async (req,res)=>{
         const token = await savedUser.getJwt();
 
         //add the token to cookie andsend the response back to the user
-         res.cookie("token", token);
-      res.json({message: "user signed up successfully", data: savedUser});
+         res.cookie("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // true in production
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            maxAge: 24 * 60 * 60 * 1000, // 1 day
+        });
+       res.send(savedUser);
     } catch(err){
         res.status(500).send("error in signing up the user: " + err.message);
     }
@@ -83,7 +88,12 @@ AuthRouter.post("/login",async (req,res)=>{
         const token = await user.getJwt();
 
         //add the token to cookie andsend the response back to the user
-         res.cookie("token", token);
+         res.cookie("token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production', // true in production
+                sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+                maxAge: 24 * 60 * 60 * 1000, // 1 day
+            });
 
         res.send(user)
 
@@ -94,8 +104,11 @@ AuthRouter.post("/login",async (req,res)=>{
 
 AuthRouter.post("/logout",async (req,res) =>{
     try{
-        res.cookie("token",null,{
-            expires:new Date(Date.now()),
+        res.cookie("token", null, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            expires: new Date(0), // Changed from Date.now() to new Date(0)
         });
         res.send("user logged out successfully");
 
