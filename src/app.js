@@ -7,10 +7,11 @@ import AuthROuter from './routes/auth.js';
 import ProfileRouter from './routes/profile.js';
 import RequestRouter from './routes/request.js';
 import UserRouter from './routes/user.js';  
-
+import http from 'http';
+import socket from 'socket.io'
 import cors from 'cors';
 import  connectDB from "./config/database.js"
-
+import intialiseSocket from "./utils/socket.js"
 dotenv.config();
 
 const app=express();
@@ -21,19 +22,20 @@ app.use(cors({
 app.use(express.json())// middleware to parse json body
 app.use(cookieParser()) // middleware to parse cookies
 
+
+
 app.use("/auth",AuthROuter);
 app.use("/profile",ProfileRouter);
 app.use("/request",RequestRouter);
 app.use("/user",UserRouter);
 
-
- 
-
+const server =http.createServer(app);
+intialiseSocket(server);
 
 
 connectDB().then(()=>{
     console.log("DB successfully connected");
-    app.listen(4000,()=>{
+    server.listen(4000,()=>{
     console.log("Server is running on port 4000");
 })
 }).catch((err)=>{
