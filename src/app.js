@@ -8,7 +8,7 @@ import ProfileRouter from './routes/profile.js';
 import RequestRouter from './routes/request.js';
 import UserRouter from './routes/user.js';  
 import http from 'http';
-
+import ChatRouter from './routes/chat.js';
 import cors from 'cors';
 import  connectDB from "./config/database.js"
 import intialiseSocket from "./utils/socket.js"
@@ -29,6 +29,7 @@ app.use("/auth",AuthROuter);
 app.use("/profile",ProfileRouter);
 app.use("/request",RequestRouter);
 app.use("/user",UserRouter);
+app.use('/chat',ChatRouter);
 
 const server =http.createServer(app);
 intialiseSocket(server);

@@ -1,4 +1,5 @@
 import { Server } from "socket.io";
+import Chat from "../models/chat.js";
 
 const intialiseSocket = (server) => {
     const io = new Server(server, {
@@ -8,7 +9,7 @@ const intialiseSocket = (server) => {
         }
     });
 
-    io.on("connection", (socket) => {
+    io.on("connection", (socket) => { // this socket represents each connected client to the server
         console.log("User connected:", socket.id);
 
         // Handle events here 
@@ -20,7 +21,7 @@ const intialiseSocket = (server) => {
         });
 
         // When a user sends a message
-        socket.on("send-message", ({
+        socket.on("send-message",async ({
             firstName,      // Name of the person sending
             from: userId,   // ID of sender
             to: targetUserId, // ID of receiver
@@ -32,7 +33,24 @@ const intialiseSocket = (server) => {
             const roomId = [userId, targetUserId].sort().join("_");
             
             console.log(`${firstName} sent: "${message}" in room ${roomId}`);
-            
+
+            try{
+                    let chat =await  Chat.findOne({participants:{$all:[userId,targetUserId]}});
+                    if(!chat){
+                        // No chat exists between these users, create a new one
+                        chat = await Chat.create({
+                            participants:[userId,targetUserId],
+                            message:[]
+                        })
+                    }
+                    chat.message.push({
+                        senderId:userId,
+                        text:message
+                    });
+                    await chat.save();
+            }catch(err){
+                console.error("Error handling send-message:", err);
+            }
             // Broadcast the message to everyone in the room (both sender and receiver)
             // This ensures both people see the message appear in real-time
             io.to(roomId).emit("receive-message", {
