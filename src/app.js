@@ -17,7 +17,7 @@ dotenv.config();
 
 const app=express();
 app.use(cors({
-    origin: "http://localhost:5173", // This must match your Frontend URL exactly
+    origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true
 }));
 app.use(express.json())// middleware to parse json body
